@@ -8,7 +8,7 @@ public class Rogue extends Player {
 	}
 	
 	public String toString(){
-		if(!super.getDead()){
+		if(!super.isDead()){
 			return "The Sly Rogue, " + super.toString() + "\n";
 		} else{
 			return super.toString();
@@ -37,14 +37,14 @@ public class Rogue extends Player {
 		
 	}
 
-	public void Attack(Monster m) {
-		super.Attack(m);
+	public void attack(Monster m) {
+		super.attack(m);
 		if(super.getLevel() >= 6 && Math.random() > .8){
 			m.recieveDebuff("Poisoned");
 		}
 		if (Math.random() > .74) {
 			System.out.println(">>>" + super.getName() + " just got a second attack!!!");
-			super.Attack(m);
+			super.attack(m);
 			if(super.getLevel() >= 6 && Math.random() > .8){
 				m.recieveDebuff("Poisoned");
 			}

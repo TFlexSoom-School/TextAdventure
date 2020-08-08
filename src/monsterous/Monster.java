@@ -48,7 +48,7 @@ public class Monster {
 		return health;
 	}
 
-	public boolean getDead() {
+	public boolean isDead() {
 		return dead;
 	}
 

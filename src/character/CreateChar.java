@@ -8,12 +8,13 @@ public class CreateChar {
 	private static int health;
 	private static double damageMod;
 	
-	public static Player CreateCharMain(Scanner consoleInput){
-		console_input = consoleInput;
+	public static Player CreateCharMain(){
+		console_input = new Scanner(System.in);
 		String name = createCharName();
 		difficulty = setDifficulty();
 		
 		String charClass = chooseClass();
+
 		if(charClass.equals("rogue")){
 			return new Rogue(name, health, damageMod);
 		}else if(charClass.equals("mage")){
@@ -29,14 +30,14 @@ public class CreateChar {
 		return difficulty;
 	}
 	
-	public static String createCharName(){
+	private static String createCharName(){
 		System.out.print("Name your character!! -- :");
 		String name = console_input.nextLine();
 		System.out.println();
 		return name;
 	}
 	
-	public static String setDifficulty(){
+	private static String setDifficulty(){
 		System.out.print("State your difficulty -|Easy + Medium + Hard + Insane|- :");
 		String statedDifficulty = console_input.nextLine().toLowerCase();
 		System.out.println();
@@ -74,7 +75,7 @@ public class CreateChar {
 		return Difficulty;
 	}
 	
-	public static String chooseClass(){
+	private static String chooseClass(){
 		System.out.println("Pick Your Class:\n-Mage | Warrior | Rogue");
 		while(true){
 			String Class = console_input.nextLine();

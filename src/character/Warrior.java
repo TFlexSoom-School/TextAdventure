@@ -18,7 +18,7 @@ public class Warrior extends Player {
 	}
 
 	public String toString() {
-		if (!super.getDead()) {
+		if (!super.isDead()) {
 			return "The Menacing Warrior, " + super.toString() + "\n----" + super.getName() + " currently has " + armor + " armor\n";
 		} else {
 			return super.toString();
@@ -63,9 +63,9 @@ public class Warrior extends Player {
 		}
 	}
 
-	public void Attack(Monster m) {
+	public void attack(Monster m) {
 		if ((int) (Math.random() * 100) > (super.getMaxHealth() - super.getHealth()) / 75 + 25) {
-			super.Attack(m);
+			super.attack(m);
 		} else {
 			System.out.println(super.getName() + " just got a critical strike!!!");
 			Random rand = new Random();
@@ -135,7 +135,7 @@ public class Warrior extends Player {
 				" JUST DEALT 25 DAMAGE TO HIMSELF TO ATTACK 3 TIMES");
 		for(int i = 0; i < 3; i ++){
 			System.out.println();
-			super.Attack(m);
+			super.attack(m);
 		}
 	}
 }

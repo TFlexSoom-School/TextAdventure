@@ -34,7 +34,7 @@ public abstract class Player {
 	}
 
 	// Accessors:
-	public boolean getDead() {
+	public boolean isDead() {
 		return dead;
 	}
 
@@ -91,7 +91,7 @@ public abstract class Player {
 		}
 	}
 
-	public void Attack(Monster m) {
+	public void attack(Monster m) {
 		Random rand = new Random();
 		int x = (rand.nextInt(max_dmg - min_dmg + 1) + min_dmg);
 		if (attackBuffed > 0) {

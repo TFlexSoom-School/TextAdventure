@@ -14,7 +14,7 @@ public class Mage extends Player {
 	}
 
 	public String toString() {
-		if (!super.getDead()) {
+		if (!super.isDead()) {
 			return "The Intelligent Mage, " + super.toString() + "\n----" + super.getName() + " currently has " + mana + " mana\n";
 		} else {
 			return super.toString();
