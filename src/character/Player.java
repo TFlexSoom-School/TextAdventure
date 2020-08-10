@@ -85,6 +85,10 @@ public abstract class Player {
 
 	public abstract void regen();
 
+	public boolean hasSpells(){
+		return false;
+	}
+	
 	public void printSpells() {
 		if (level >= 4) {
 			System.out.println(name + " has a 1/3 chance to heal himself with each attack");
@@ -222,4 +226,7 @@ public abstract class Player {
 		attackBuffed = 2;
 		System.out.println(name + " is ENRAGED!!!!");
 	}
+
+	public abstract void spellCost(String spell);
+	public abstract boolean useSpell(String spell, Monster m);
 }

@@ -46,6 +46,10 @@ public class Warrior extends Player {
 		}
 
 	}
+
+	public boolean hasSpells(){
+		return true;
+	}
 	
 	public void attacked(int damage, Monster m){
 		if(super.getLevel() >= 6 && Math.random() >= .9){
@@ -121,6 +125,8 @@ public class Warrior extends Player {
 				System.out.println("Battle Burst costs 20 damage to yourself");
 				System.out.println("Gives you 3 attacks that turn");
 			}
+		}else{
+			System.out.println("Cannot find that in my spell book!");
 		}
 	}
 

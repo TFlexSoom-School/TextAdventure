@@ -38,6 +38,10 @@ public class Mage extends Player {
 
 	}
 
+	public boolean hasSpells(){
+		return true;
+	}
+
 	public void spellCost(String spell) {
 		if (SpellBook.contains(spell)) {
 			if (spell.equals("Fire Ball")) {
@@ -56,6 +60,8 @@ public class Mage extends Player {
 			if (spell.equals("Mana Burn")) {
 				System.out.println("Uses all mana in pool dealing double mana as damage");
 			}
+		}else{
+			System.out.println("Cannot find that in my spell book!");
 		}
 	}
 

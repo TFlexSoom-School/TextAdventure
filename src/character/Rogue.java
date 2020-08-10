@@ -37,6 +37,15 @@ public class Rogue extends Player {
 		
 	}
 
+	public void spellCost(String spell){
+		// Rogue does not cast Spells!
+	}
+
+	public boolean useSpell(String spell, Monster m){
+		System.out.println("Rogues don't use spells... pfft!");
+		return false;
+	}
+
 	public void attack(Monster m) {
 		super.attack(m);
 		if(super.getLevel() >= 6 && Math.random() > .8){

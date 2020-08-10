@@ -76,13 +76,13 @@ public class UserCommand{
                     return cmd;
                 });
         
-        map.put("define spell", scan -> {
-                    scan.next("define spell");
+        map.put("define-spell", scan -> {
+                    scan.next("define-spell");
                     Command cmd = 
                         new Command();
                     InputConsumer consumer = new InputConsumer(scan);
-                    consumer.consumeString("define spell");
-                    String name = consumer.consumeLine();
+                    consumer.consumeString("define-spell");
+                    String name = consumer.consumeLine().stripLeading();
                     if(name != null){
                         cmd.action = Command.ACTION.DETAIL;
                         cmd.name = name;
@@ -90,7 +90,7 @@ public class UserCommand{
                         return cmd;
                     }
 
-                    consoleOutput.println("Name of the spell could not be found!");
+                    consoleOutput.println("We need the name of the spell!");
                     return null;
                 });
         
@@ -100,7 +100,7 @@ public class UserCommand{
                         new Command();
                     InputConsumer consumer = new InputConsumer(scan);
                     consumer.consumeString("spell");
-                    String name = consumer.consumeLine();
+                    String name = consumer.consumeLine().stripLeading();
                     if(name != null){
                         cmd.action = Command.ACTION.SPECIAL;
                         cmd.name = name;
@@ -112,8 +112,8 @@ public class UserCommand{
                     return null;
                 });
         
-        map.put("point check", scan -> {
-                    scan.next("point check");
+        map.put("point-check", scan -> {
+                    scan.next("point-check");
                     Command cmd = 
                         new Command();
 
@@ -146,13 +146,17 @@ public class UserCommand{
             }
 
 			if (cmd == null) {
-                consoleOutput.println("=Available Action=");
+                consoleOutput.println("=Available Actions=");
                 for(String action : validInput.keySet()){
                     // TODO Make Objects for each Command rather
                     // than lambdas
-                    consoleOutput.println(action);
+                    consoleOutput.printf("  - \"%s\"\n", action);
                 }
+                
+                while(consoleInput.nextLine().equals(""));
             }
+
+            consoleInput.reset();
 		}
 
         return cmd;

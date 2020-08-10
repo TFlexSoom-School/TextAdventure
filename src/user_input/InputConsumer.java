@@ -14,7 +14,7 @@ public class InputConsumer{
     private Scanner scan;
 
     public InputConsumer(Scanner scanner){
-        this.scan = scan;
+        this.scan = scanner;
     }
 
     public InputConsumer(String input){
@@ -39,7 +39,7 @@ public class InputConsumer{
     }
 
     public String consumeLine(){
-        if(this.scan.hasNext()){
+        if(this.scan.hasNextLine()){
             return this.scan.nextLine();
         }
 

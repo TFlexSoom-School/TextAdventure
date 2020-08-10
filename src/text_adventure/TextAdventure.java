@@ -1,7 +1,5 @@
 package text_adventure;
 
-import java.util.Scanner;
-
 import character.*;
 import monsterous.*;
 import leaderBoard.*;
@@ -14,17 +12,11 @@ public class TextAdventure {
         Player player = introduction();
 		Monster enemy = null;
 
-        System.out.printf(
-            "As %s takes their first steps away from home\n", 
-            player.getName()
-            );
-		
-        System.out.printf("---They look forward at the adventure ahead\n");
-
         while (!player.isDead()) {
 			enemy = createEncounter(player);
 			System.out.printf(
-                "A %s, named %s with %d health, enters the battlefield\n\n", enemy.getType(), 
+                "A %s, named %s with %d health, enters the battlefield\n\n", 
+                enemy.getType(), 
                 enemy.getName(), 
                 enemy.getHealth()
                 );
@@ -35,13 +27,11 @@ public class TextAdventure {
 				if (!enemy.isDead()) {
 				    monsterPassive(enemy);
 					monsterTurn(enemy, player);
-				}
+				}else{
+                    System.out.println(enemy);
+				    loot(player);
+                }
             }
-
-			if (!player.isDead()) {
-				System.out.println(enemy);
-				loot(player);
-			}
 		}
 		System.out.println(player);
 		//HighScore.Score(Score);
@@ -53,7 +43,12 @@ public class TextAdventure {
 		// A little Coding Easter egg ---- Please Excuse
 		MultipleClassArrays.trollName(player);
         System.out.println();
-
+        System.out.printf(
+            "As %s takes their first steps away from home\n", 
+            player.getName()
+            );
+		
+        System.out.printf("---They look forward at the adventure ahead\n");
         return player;
     }
 
@@ -63,63 +58,83 @@ public class TextAdventure {
 
 	public static void playerTurn(Player p,  Monster m) {
 		System.out.printf("%s prepared themself...\n", p.getName());
-        Command cmd = UserCommand.getValidCommand();
-        switch(cmd.action){
-            case ATTACK:
-                p.attack(m);
-                break;
-            case LIST:
-                // System.out.println(p.getInventory());
-                // p.printSpells();
-                break;
-            case DETAIL:
-                // System.out.println(m + "\n");
-                // System.out.println(p);
-                /*
-                 parameter = new Scanner(userInput);
-                parameter.skip("Define Spell<");
-                if(parameter.hasNext()){
-                    if (p.getClass() == Mage.class) {
-                        ((Mage)p).spellCost(parameter.nextLine());
-                    } else if (p.getClass() == Warrior.class) {
-                        ((Warrior)p).spellCost(parameter.next());
-                    }
-                }
-                */
-                break;
-            case SPECIAL:
-            /*
-            parameter = new Scanner(userInput);
-            parameter.skip("Item<");
-            if (parameter.hasNextInt()) {
-                if (p.use_item(parameter.nextInt())) {
+        Command cmd = null;
+        boolean isTurnConsumed = false;
+        while(!isTurnConsumed){
+            cmd = UserCommand.getValidCommand();
+            switch(cmd.action){
+                case ATTACK:
+                    p.attack(m);
+                    isTurnConsumed = true;
                     break;
-                }
+                case LIST:
+                    listPlayer(cmd, p);
+                    break;
+                case DETAIL:
+                    detailEntity(cmd, p, m);
+                    break;
+                case SPECIAL:
+                    isTurnConsumed = consumeAbility(cmd, p, m);
+                    break;
+                default:
+                    break;
             }
-            System.out.println("= No Item Used = --->> Try again");
+        }
+    }
+    
+    public static void listPlayer(Command cmd, Player p){
+        if(cmd.type == Command.TYPE.ITEM){
+            System.out.println(p.getInventory());
+        }else if(cmd.type == Command.TYPE.SPELL){
+            p.printSpells();
+        }else{
+            System.err.println("Unknown List Type");
+        }
+    }
 
-            ////////
-            parameter = new Scanner(userInput);
-            parameter.skip("Spell<");
-            if (parameter.hasNext()) {
-                if (p.getClass() == Mage.class) {
-                    if (((Mage) p).useSpell(parameter.nextLine(), m)) {
-                        break;
-                    }
-                } else if (p.getClass() == Warrior.class) {
-                    if (((Warrior) p).useSpell(parameter.nextLine(), m)) {
-                        break;
-                    }
+    public static void detailEntity(Command cmd, Player p, Monster m){
+        switch(cmd.type){
+            case SPELL:
+                if(p.hasSpells()){
+                    p.spellCost(cmd.name);
                 }
-            }
-            System.out.println("= No Spell Used = --->> Try Again");
-
-            */
                 break;
+            
+            case PLAYER:
+                System.out.println(p);
+                break;
+            
+            case MONSTER:
+                System.out.println(m + "\n");
+                break;
+
             default:
-                break;
-        } 
-	}
+                System.err.println("Game does not support \"detail\" for that!");
+        }
+    }
+
+    public static boolean consumeAbility(Command cmd, Player p, Monster m){
+        switch(cmd.type){
+            case SPELL:
+                System.out.println(cmd.name);
+                if(p.useSpell(cmd.name, m)){
+                    return true;
+                }
+                System.out.println("= No Spell Used = --->> Try Again");
+                return false;
+            
+            case ITEM:
+                if (p.use_item(cmd.index)) {
+                    return true;
+                }else{
+                    System.out.println("= No Item Used = --->> Try again");
+                    return false;
+                }
+            default:
+                System.err.println("Game does not support \"casting\" for that!");
+                return false;
+        }
+    }
 
 	public static void monsterPassive(Monster m) {
 		//m.debuffs();
